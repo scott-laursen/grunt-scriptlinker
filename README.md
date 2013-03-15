@@ -61,7 +61,7 @@ The template used to insert the reference to the script files.
 
 #### options.appRoot
 Type: `String`
-Default value: `'<!--SCRIPTS END-->'`
+Default value: `''`
 
 The root of the application. Script links are relative from this folder.
 
