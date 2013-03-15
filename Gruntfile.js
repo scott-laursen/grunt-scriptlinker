@@ -32,20 +32,15 @@ module.exports = function(grunt) {
     scriptlinker: {
       default_options: {
         options: {
+          startTag: '<!--SCRIPTS-->',
+          endTag: '<!--SCRIPTS END-->',
+          fileTmpl: '\n<script src="%s"></script>',
+          appRoot: 'test/'
         },
         files: {
-          'tmp/default_options': ['test/fixtures/testing', 'test/fixtures/123'],
-        },
-      },
-      custom_options: {
-        options: {
-          separator: ': ',
-          punctuation: ' !!!',
-        },
-        files: {
-          'tmp/custom_options': ['test/fixtures/testing', 'test/fixtures/123'],
-        },
-      },
+          'test/fixtures/file.html': 'test/fixtures/*.js'
+        }
+      }
     },
 
     // Unit tests.
