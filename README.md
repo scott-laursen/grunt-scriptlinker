@@ -1,17 +1,17 @@
 # grunt-scriptlinker
 
-> Autoinsert script tags in an html file
+> Autoinsert script tags (or other filebased tags) in an html file
 
 ## Getting Started
 This plugin requires Grunt `~0.4.x`
 
-If you haven't used [Grunt](http://gruntjs.com/) before, be sure to check out the [Getting Started](http://gruntjs.com/getting-started) guide, as it explains how to create a [Gruntfile](http://gruntjs.com/sample-gruntfile) as well as install and use Grunt plugins. Once you're familiar with that process, you may install this plugin with this command:
+When the task is run the destination file(s) is updated with script tags pointing to all the source files. The reason this plugin was built was to automate the process of inserting script tags when building large web apps.
 
 ```shell
 npm install grunt-scriptlinker --save-dev
 ```
 
-One the plugin has been installed, it may be enabled inside your Gruntfile with this line of JavaScript:
+Once the plugin has been installed, it may be enabled inside your Gruntfile with this line of JavaScript:
 
 ```js
 grunt.loadNpmTasks('grunt-scriptlinker');
@@ -26,10 +26,14 @@ In your project's Gruntfile, add a section named `scriptlinker` to the data obje
 grunt.initConfig({
   scriptlinker: {
     options: {
-      // Task-specific options go here.
+      startTag: '<!--SCRIPTS-->',
+      endTag: '<!--SCRIPTS END-->',
+      fileTmpl: '<script src="%s"></script>',
+      appRoot: 'app/'
     },
-    your_target: {
+    files: {
       // Target-specific file lists and/or options go here.
+      'app/index.html': ['app/scripts/**/*.js']
     },
   },
 })
@@ -37,53 +41,28 @@ grunt.initConfig({
 
 ### Options
 
-#### options.separator
+#### options.startTag
 Type: `String`
-Default value: `',  '`
+Default value: `'<!--SCRIPTS-->'`
 
-A string value that is used to do something with whatever.
+Script tags are places between the startTag and endTag
 
-#### options.punctuation
+#### options.endTag
 Type: `String`
-Default value: `'.'`
+Default value: `'<!--SCRIPTS END-->'`
 
-A string value that is used to do something else with whatever else.
+Script tags are places between the startTag and endTag
 
-### Usage Examples
+#### options.fileTmpl
+Type: `String`
+Default value: `'<script src="%s"></script>'`
 
-#### Default Options
-In this example, the default options are used to do something with whatever. So if the `testing` file has the content `Testing` and the `123` file had the content `1 2 3`, the generated result would be `Testing, 1 2 3.`
+The template used to insert the reference to the script files.
 
-```js
-grunt.initConfig({
-  scriptlinker: {
-    options: {},
-    files: {
-      'dest/default_options': ['src/testing', 'src/123'],
-    },
-  },
-})
-```
+#### options.appRoot
+Type: `String`
+Default value: `'<!--SCRIPTS END-->'`
 
-#### Custom Options
-In this example, custom options are used to do something else with whatever else. So if the `testing` file has the content `Testing` and the `123` file had the content `1 2 3`, the generated result in this case would be `Testing: 1 2 3 !!!`
+The root of the application. Script links are relative from this folder.
 
-```js
-grunt.initConfig({
-  scriptlinker: {
-    options: {
-      separator: ': ',
-      punctuation: ' !!!',
-    },
-    files: {
-      'dest/default_options': ['src/testing', 'src/123'],
-    },
-  },
-})
-```
 
-## Contributing
-In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
-
-## Release History
-_(Nothing yet)_
