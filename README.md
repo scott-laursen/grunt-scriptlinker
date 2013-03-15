@@ -25,15 +25,17 @@ In your project's Gruntfile, add a section named `scriptlinker` to the data obje
 ```js
 grunt.initConfig({
   scriptlinker: {
-    options: {
-      startTag: '<!--SCRIPTS-->',
-      endTag: '<!--SCRIPTS END-->',
-      fileTmpl: '<script src="%s"></script>',
-      appRoot: 'app/'
-    },
-    files: {
-      // Target-specific file lists and/or options go here.
-      'app/index.html': ['app/scripts/**/*.js']
+    defaultOptions: {
+      options: {
+        startTag: '<!--SCRIPTS-->',
+        endTag: '<!--SCRIPTS END-->',
+        fileTmpl: '<script src="%s"></script>',
+        appRoot: 'app/'
+      },
+      files: {
+        // Target-specific file lists and/or options go here.
+        'app/index.html': ['app/scripts/**/*.js']
+      },
     },
   },
 })
