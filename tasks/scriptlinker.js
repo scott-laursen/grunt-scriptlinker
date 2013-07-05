@@ -45,23 +45,20 @@ module.exports = function(grunt) {
 				}).join('');
 
 
-			if (!grunt.file.exists(f.dest)) {
-				grunt.log.warn('Destination file "' + f.dest + '" not found.');
-			} else {
-				page = grunt.file.read(f.dest);
+			  grunt.file.expand({}, f.dest).forEach(function(page){
+			  
+				  start = page.indexOf(options.startTag);
 
-				start = page.indexOf(options.startTag);
-				end = page.indexOf(options.endTag);
-
-				if (start === -1 || end === -1 || start >= end) {
-					grunt.log.warn('Destination file\'s "' + f.dest + '" start and/or end tag is not correctly setup.');
-				} else {
-					newPage = page.substr(0, start + options.startTag.length) + scripts + page.substr(end);
-					// Insert the scripts
-					grunt.file.write(f.dest, newPage);
-					grunt.log.writeln('File "' + f.dest + '" updated.');
-				}
-			}
+				  end = page.indexOf(options.endTag);
+				  if (start === -1 || end === -1 || start >= end) {
+					  grunt.log.warn('Destination file\'s "' + f.dest + '" start and/or end tag is not correctly setup.');
+				  } else {
+					  newPage = page.substr(0, start + options.startTag.length) + scripts + page.substr(end);
+					  // Insert the scripts
+					  grunt.file.write(f.dest, newPage);
+					  grunt.log.writeln('File "' + f.dest + '" updated.');
+				  }
+			  });
 		});
 	});
 
