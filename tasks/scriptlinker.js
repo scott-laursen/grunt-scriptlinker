@@ -50,7 +50,7 @@ module.exports = function(grunt) {
 
 				end = page.indexOf(options.endTag);
 				if (start === -1 || end === -1 || start >= end) {
-					grunt.log.warn('Destination file\'s "' + dest + '" start and/or end tag is not correctly setup.');
+					return;
 				} else {
 					newPage = page.substr(0, start + options.startTag.length) + scripts + page.substr(end);
 					// Insert the scripts
