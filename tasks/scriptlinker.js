@@ -42,7 +42,7 @@ module.exports = function(grunt) {
 					} else { return true; }
 				}).map(function (filepath) {
 					return util.format(options.fileTmpl, filepath.replace(options.appRoot, ''));
-				}).join('');
+				});
 
 			grunt.file.expand({}, f.dest).forEach(function(dest){
 				page = grunt.file.read(dest);
@@ -52,7 +52,15 @@ module.exports = function(grunt) {
 				if (start === -1 || end === -1 || start >= end) {
 					return;
 				} else {
-					newPage = page.substr(0, start + options.startTag.length) + scripts + page.substr(end);
+          var padding ='';
+          var ind = start - 1;
+          // TODO: Fix this hack
+          while(page.charAt(ind)===' ' || page.charAt(ind)==='  '){
+            padding += page.charAt(ind);
+            ind -= 1;
+          }
+          console.log('padding length', padding.length)
+					newPage = page.substr(0, start + options.startTag.length)+'\n' + padding + scripts.join('\n'+padding) + '\n' + padding + page.substr(end);
 					// Insert the scripts
 					grunt.file.write(dest, newPage);
 					grunt.log.writeln('File "' + dest + '" updated.');
