@@ -17,14 +17,14 @@ Once the plugin has been installed, it may be enabled inside your Gruntfile with
 grunt.loadNpmTasks('grunt-sails-linker');
 ```
 
-## The "scriptlinker" task
+## The "sails-linker" task
 
 ### Overview
-In your project's Gruntfile, add a section named `scriptlinker` to the data object passed into `grunt.initConfig()`.
+In your project's Gruntfile, add a section named `sails-linker` to the data object passed into `grunt.initConfig()`.
 
 ```js
 grunt.initConfig({
-  scriptlinker: {
+  'sails-linker': {
     defaultOptions: {
       options: {
         startTag: '<!--SCRIPTS-->',
