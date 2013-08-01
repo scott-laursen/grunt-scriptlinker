@@ -15,7 +15,7 @@ module.exports = function(grunt) {
 	// Please see the Grunt documentation for more information regarding task
 	// creation: http://gruntjs.com/creating-tasks
 
-	grunt.registerMultiTask('scriptlinker', 'Your task description goes here.', function() {
+	grunt.registerMultiTask('sails-linker', 'Your task description goes here.', function() {
 		// Merge task-specific and/or target-specific options with these defaults.
 		var options = this.options({
 			startTag: '<!--SCRIPTS-->',
@@ -42,26 +42,30 @@ module.exports = function(grunt) {
 					} else { return true; }
 				}).map(function (filepath) {
 					return util.format(options.fileTmpl, filepath.replace(options.appRoot, ''));
-				}).join('');
+				});
 
-
-			if (!grunt.file.exists(f.dest)) {
-				grunt.log.warn('Destination file "' + f.dest + '" not found.');
-			} else {
-				page = grunt.file.read(f.dest);
-
+			grunt.file.expand({}, f.dest).forEach(function(dest){
+				page = grunt.file.read(dest);
 				start = page.indexOf(options.startTag);
-				end = page.indexOf(options.endTag);
 
+				end = page.indexOf(options.endTag);
 				if (start === -1 || end === -1 || start >= end) {
-					grunt.log.warn('Destination file\'s "' + f.dest + '" start and/or end tag is not correctly setup.');
+					return;
 				} else {
-					newPage = page.substr(0, start + options.startTag.length) + scripts + page.substr(end);
+          var padding ='';
+          var ind = start - 1;
+          // TODO: Fix this hack
+          while(page.charAt(ind)===' ' || page.charAt(ind)==='  '){
+            padding += page.charAt(ind);
+            ind -= 1;
+          }
+          console.log('padding length', padding.length)
+					newPage = page.substr(0, start + options.startTag.length)+'\n' + padding + scripts.join('\n'+padding) + '\n' + padding + page.substr(end);
 					// Insert the scripts
-					grunt.file.write(f.dest, newPage);
-					grunt.log.writeln('File "' + f.dest + '" updated.');
+					grunt.file.write(dest, newPage);
+					grunt.log.writeln('File "' + dest + '" updated.');
 				}
-			}
+			});
 		});
 	});
 

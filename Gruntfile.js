@@ -38,7 +38,7 @@ module.exports = function(grunt) {
           appRoot: 'test/'
         },
         files: {
-          'test/fixtures/file.html': 'test/fixtures/*.js'
+          'test/fixtures/**/*.html': 'test/fixtures/*.js'
         }
       }
     },
