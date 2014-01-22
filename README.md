@@ -67,4 +67,8 @@ Default value: `''`
 
 The root of the application. Script links are relative from this folder.
 
+#### options.relative
+Type: `Boolean`
+Default value: `false`
 
+Reference files using a relative url.
