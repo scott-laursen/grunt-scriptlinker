@@ -60,7 +60,6 @@ module.exports = function(grunt) {
             padding += page.charAt(ind);
             ind -= 1;
           }
-          console.log('padding length', padding.length)
                     if (options.removeStartEndTags) {
                         newPage = page.substr(0, start) + scripts.join('\n'+padding) + page.substr(end + options.endTag.length);
                     } else {
