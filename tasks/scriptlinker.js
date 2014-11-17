@@ -43,7 +43,7 @@ module.exports = function(grunt) {
 						return false;
 					} else { return true; }
 				});
-			lastScriptPath = f.src[f.src.length - 1];
+			lastScriptPath = scripts[scripts.length - 1];
 			scripts = scripts.map(function (filepath) {
 					return util.format(options.fileTmpl, filepath.replace(options.appRoot, ''));
 				});
