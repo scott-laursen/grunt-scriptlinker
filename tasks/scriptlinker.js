@@ -32,7 +32,8 @@ module.exports = function(grunt) {
 				page = '',
 				newPage = '',
 				start = -1,
-				end = -1;
+				end = -1,
+				lastScriptPath = '';
 
 			// Create string tags
 			scripts = f.src.filter(function (filepath) {
@@ -41,9 +42,15 @@ module.exports = function(grunt) {
 						grunt.log.warn('Source file "' + filepath + '" not found.');
 						return false;
 					} else { return true; }
-				}).map(function (filepath) {
+				});
+			lastScriptPath = f.src[f.src.length - 1];
+			scripts = scripts.map(function (filepath) {
 					return util.format(options.fileTmpl, filepath.replace(options.appRoot, ''));
 				});
+
+			if (typeof options.fileTmplLast === "string") {
+				scripts[scripts.length - 1] = util.format(options.fileTmplLast, lastScriptPath.replace(options.appRoot, ''));
+			}
 
 			grunt.file.expand({}, f.dest).forEach(function(dest){
 				page = grunt.file.read(dest);
