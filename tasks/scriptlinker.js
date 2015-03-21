@@ -21,7 +21,8 @@ module.exports = function(grunt) {
 			startTag: '<!--SCRIPTS-->',
 			endTag: '<!--SCRIPTS END-->',
 			fileTmpl: '<script src="%s"></script>',
-			appRoot: ''
+			appRoot: '',
+            removeStartEndTags: false
 		});
 
 
@@ -31,7 +32,8 @@ module.exports = function(grunt) {
 				page = '',
 				newPage = '',
 				start = -1,
-				end = -1;
+				end = -1,
+				lastScriptPath = '';
 
 			// Create string tags
 			scripts = f.src.filter(function (filepath) {
@@ -40,9 +42,15 @@ module.exports = function(grunt) {
 						grunt.log.warn('Source file "' + filepath + '" not found.');
 						return false;
 					} else { return true; }
-				}).map(function (filepath) {
+				});
+			lastScriptPath = scripts[scripts.length - 1];
+			scripts = scripts.map(function (filepath) {
 					return util.format(options.fileTmpl, filepath.replace(options.appRoot, ''));
 				});
+
+			if (typeof options.fileTmplLast === "string") {
+				scripts[scripts.length - 1] = util.format(options.fileTmplLast, lastScriptPath.replace(options.appRoot, ''));
+			}
 
 			grunt.file.expand({}, f.dest).forEach(function(dest){
 				page = grunt.file.read(dest);
@@ -59,8 +67,11 @@ module.exports = function(grunt) {
             padding += page.charAt(ind);
             ind -= 1;
           }
-          console.log('padding length', padding.length)
-					newPage = page.substr(0, start + options.startTag.length)+'\n' + padding + scripts.join('\n'+padding) + '\n' + padding + page.substr(end);
+                    if (options.removeStartEndTags) {
+                        newPage = page.substr(0, start) + scripts.join('\n'+padding) + page.substr(end + options.endTag.length);
+                    } else {
+                        newPage = page.substr(0, start + options.startTag.length)+'\n' + padding + scripts.join('\n'+padding) + '\n' + padding + page.substr(end);
+                    }
 					// Insert the scripts
 					grunt.file.write(dest, newPage);
 					grunt.log.writeln('File "' + dest + '" updated.');
