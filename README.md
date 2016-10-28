@@ -1,6 +1,10 @@
 # grunt-sails-linker
 
-> Autoinsert script tags (or other filebased tags) in an html file
+Autoinsert script tags (or other filebased tags) in an html file
+
+> Looking for the version of this package included in the default asset pipeline in Sails apps?  See https://github.com/sailsjs/grunt-sails-linker
+
+
 
 ## Getting Started
 This plugin requires Grunt `~0.4.x`
